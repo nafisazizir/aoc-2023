@@ -2,16 +2,49 @@ def part_1(input):
     res = 0
 
     for line in input:
-        pass
+        winning_set = set()
+        card_winning = []
+
+        winning = line.split("|")[0].split(":")[-1]
+        for n in winning.split():
+            winning_set.add(int(n))
+
+        cards = line.split("|")[-1]
+
+        for n in cards.split():
+            if int(n) in winning_set:
+                card_winning.append(int(n))
+
+        if len(card_winning):
+            res += 2 ** (len(card_winning) - 1)
 
     return res
 
 
 def part_2(input):
     res = 0
+    copies = {}
 
-    for line in input:
-        pass
+    for id, line in enumerate(input):
+        winning_set = set()
+        card_winning = []
+
+        winning = line.split("|")[0].split(":")[-1]
+        for n in winning.split():
+            winning_set.add(int(n))
+
+        cards = line.split("|")[-1]
+
+        for n in cards.split():
+            if int(n) in winning_set:
+                card_winning.append(int(n))
+
+        copies[id + 1] = copies.get(id + 1, 0) + 1
+        for i in range(1, len(card_winning) + 1):
+            next = id + 1 + i
+            copies[next] = copies.get(next, 0) + copies.get(id + 1)
+
+        res += copies[id + 1]
 
     return res
 
